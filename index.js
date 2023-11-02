@@ -2,13 +2,15 @@ const { default: axios } = require('axios');
 const express = require('express');
 const app = express();
 
-app.get('/', (req, res) => {
-  axios.get('https://jsonplaceholder.typicode.com/todos/1')
-  .then((res)=>
-  {
-    console.log(res);
-  })
-  .catch((err)=>console.log(err))
+app.get('/', async (req, res) => {
+  //can also be a simple database call
+ let {data} = await axios.get('https://jsonplaceholder.typicode.com/photos',{params:{albumId:req.query.albumId}})
+ res.json(data)
+})
+
+app.get('/:id', async (req, res) => {
+ let {data} = await axios.get(`https://jsonplaceholder.typicode.com/photos/${req.params.id}`)
+ res.json(data)
 })
 
 app.listen(3000, () => {
